@@ -20,10 +20,22 @@ defmodule Drop do
     assumes gravitiational acceleration is constant over the
     region of interest
     """
-    @spec fall_velocity(number()) :: number()
+    # @spec fall_velocity(number()) :: number()
     import :math, only: [sqrt: 1]
-    def fall_velocity(distance, gravity \\ 9.81)do
-        sqrt(2 * gravity * distance)
+    # def _fall_velocity(distance, gravity \\ 9.81)do
+        # sqrt(2 * gravity * distance)
+    # end
+    
+    def fall_velocity(:earth, distance) do
+        sqrt(2 * 9.8 * distance)
+    end
+    
+    def fall_velocity(:mars, distance) do
+        sqrt(2* 3.71 * distance)
+    end
+    
+    def fall_velocity(:moon, distance) do
+        sqrt(2 * 1.6 * distance)
     end
 end
     
