@@ -22,9 +22,6 @@ defmodule Drop do
     """
     import :math, only: [sqrt: 1]
     @neg_err_mess "Uh oh! Failed due to distance <0"
-    def fall_velocity(distance) when distance <0 do
-        IO.puts @neg_err_mess
-    end
     
     def fall_velocity(distance) do
         fall_velocity(:earth, distance)
