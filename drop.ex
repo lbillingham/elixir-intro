@@ -6,10 +6,15 @@ defmodule Drop do
     the gravity-parallel speed of a dropped object in a vaccuum.
     Parameters
     ----------
-    `distance`:
-        the 'drop height' in meters
-    `gravity`:
-        the gravitational accelertion in ms^1
+    A tuple of:
+        {
+         `planemo`: atom
+             identifies the PLANEtary Mass Object (`:earth, :mars, :moon`)
+             to determine the gravitiational acceleration.
+             (defaults to `:earth` if not provided)
+        `distance`: float
+             the 'drop height' in meters
+         }
     Returns
     -------
     `speed`:
@@ -23,23 +28,30 @@ defmodule Drop do
     import :math, only: [sqrt: 1]
     @neg_err_mess "Uh oh! Failed due to distance <0"
     
-    def fall_velocity(distance) do
+    def fall_velocity(where) when tuple_size(where) == 1 do
+        {distance} = where
         fall_velocity(:earth, distance)
     end
-
-    def fall_velocity(_, distance) when distance <0 do
-        IO.puts @neg_err_mess
+    
+    def fall_velocity(where) do
+        {planemo, distance} = where
+        fall_velocity(planemo, distance)
     end
     
-    def fall_velocity(:earth, distance) do
+    defp fall_velocity(_, distance) when distance <0 do
+        IO.puts @neg_err_mess
+        :error
+    end
+    
+    defp fall_velocity(:earth, distance) do
         sqrt(2 * 9.8 * distance)
     end
     
-    def fall_velocity(:mars, distance) do
+    defp fall_velocity(:mars, distance) do
         sqrt(2* 3.71 * distance)
     end
     
-    def fall_velocity(:moon, distance) do
+    defp fall_velocity(:moon, distance) do
         sqrt(2 * 1.6 * distance)
     end
 end
