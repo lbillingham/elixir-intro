@@ -56,10 +56,18 @@ defmodule Drop do
     end
     
     def casey_fall_vel(planemo, distance) when distance >= 0 do
-        case planemo do
-            :earth -> sqrt(2 * 9.8 * distance)
-            :mars -> sqrt(2 * 3.71 * distance)
-            :moon -> sqrt(2 * 1.6 * distance)
+        gravity = case planemo do
+            :earth -> 9.81
+            :mars ->  3.71
+            :moon ->  1.6
+        end
+        speed = sqrt(2 * distance * gravity)
+        cond do
+            speed == 0 -> :rooted
+            speed < 5 -> :tortoise
+            speed >= 5 and speed < 10 -> :moovinsum
+            speed >= 10 and speed < 20 -> :faaast
+            speed >= 20 -> :speedyindeedy
         end
     end
 end
