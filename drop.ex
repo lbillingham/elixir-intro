@@ -62,6 +62,13 @@ defmodule Drop do
             :moon ->  1.6
         end
         speed = sqrt(2 * distance * gravity)
+        
+        if speed > 20 do
+            IO.puts("think fast. Look out below")
+        else
+            IO.puts("think at normal speed")
+        end
+        
         cond do
             speed == 0 -> :rooted
             speed < 5 -> :tortoise
