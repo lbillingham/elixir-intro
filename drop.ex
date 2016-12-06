@@ -13,7 +13,7 @@ defmodule Drop do
              to determine the gravitiational acceleration.
              (defaults to `:earth` if not provided)
         `distance`: float
-             the 'drop height' in meters
+             the 'drop height' in meters. Must be greater than zero.
          }
     Returns
     -------
@@ -27,7 +27,7 @@ defmodule Drop do
     """
     import :math, only: [sqrt: 1]
     @neg_err_mess "Uh oh! Failed due to distance <0"
-    
+
     def fall_velocity(where) when tuple_size(where) == 1 do
         {distance} = where
         fall_velocity(:earth, distance)
@@ -53,6 +53,14 @@ defmodule Drop do
     
     defp fall_velocity(:moon, distance) do
         sqrt(2 * 1.6 * distance)
+    end
+    
+    def casey_fall_vel(planemo, distance) when distance >= 0 do
+        case planemo do
+            :earth -> sqrt(2 * 9.8 * distance)
+            :mars -> sqrt(2 * 3.71 * distance)
+            :moon -> sqrt(2 * 1.6 * distance)
+        end
     end
 end
     
